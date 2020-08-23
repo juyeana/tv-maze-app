@@ -11,10 +11,12 @@ export interface IShowDetailData {
     time: string;
     days: [];
   };
-  rating: number;
-  network:{
+  rating: {
+    average: number;
+  };
+  network: {
     name: string;
-  }
+  };
   image: {
     medium: string;
     original: string;

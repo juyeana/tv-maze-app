@@ -7,8 +7,8 @@ import { IShowSearchData } from './ishow-search-data';
 import { IShowDetailData } from './ishow-detail-data';
 import { IShowDetail } from './ishow-detail';
 import { map } from 'rxjs/operators';
-import{ICast} from './icast';
-import{ICastData} from './icast-data';
+import { ICast } from './icast';
+import { ICastData } from './icast-data';
 
 @Injectable({
   providedIn: 'root',
@@ -77,35 +77,32 @@ export class ShowsService {
       : 'http://static.tvmaze.com/images/no-img/no-img-portrait-text.png');
   }
 
-  getCast(cast:[]):[] {
+  getCast(cast: []): [] {
     let item;
-    item= cast.map(data => this.transfromToCast(data));
+    item = cast.map((data) => this.transfromToCast(data));
     return item;
   }
-  
-  isCountry(item){
+
+  isCountry(item) {
     let country;
-    return country = item? item.name : 'unknown'; 
-    }
-  
-
-  transfromToCast(data:ICastData):ICast{
-  return{
-
-        id: data.person.id,
-        url:data.person.url,
-        name:data.person.name,
-        country:this.isCountry(data.person.country),
-        birthday:data.person.birthday,
-        gender:data.person.gender,
-        image:this.getImage(data.person.image),
-         _links:data.person._links.self.href 
-      }
+    return (country = item ? item.name : 'unknown');
   }
 
+  transfromToCast(data: ICastData): ICast {
+    return {
+      id: data.person.id,
+      url: data.person.url,
+      name: data.person.name,
+      country: this.isCountry(data.person.country),
+      birthday: data.person.birthday,
+      gender: data.person.gender,
+      image: this.getImage(data.person.image),
+      _links: data.person._links.self.href,
+    };
+  }
 
   transformToShowsByDate(showsByDate: IShowSearchData): IShow {
-        return {
+    return {
       id: showsByDate.show.id,
       name: showsByDate.show.name,
       shortName: this.toShortName(showsByDate.show.name),
@@ -157,6 +154,7 @@ export class ShowsService {
   // `http://api.tvmaze.com/shows/${item.id}/images`;
 
   transformToShowDetail(detail: IShowDetailData): IShowDetail {
+    console.log('rating: ', detail);
     return {
       id: detail.id,
       name: detail.name,
@@ -169,8 +167,8 @@ export class ShowsService {
       officialSite: detail.officialSite,
       schedule_time: detail.schedule.time,
       schedule_days: detail.schedule.days,
-      rating: detail.rating,
-      network_name:detail.network.name,
+      rating: detail.rating.average,
+      network_name: detail.network.name,
       image: this.getImage(detail.image),
       summary: detail.summary,
       shortSummary: this.toShortSummary(detail.summary),
